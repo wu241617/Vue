@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>案例-图书管理</title>
+		<script src="Vue.js"></script>
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+			}
+
+			html,
+			body {
+				height: 100%;
+				width: 100%;
+			}
+
+			#app {
+				width: 600px;
+				min-height: 300px;
+				border: 2px solid black;
+				margin: 50px auto;
+				padding: 20px;
+				box-shadow: 10px 20px 20px 10px gray;
+			}
+
+			h2 {
+				height: 50px;
+				line-height: 50px;
+				text-align: center;
+				background-color: black;
+				color: white;
+			}
+
+			p {
+				height: 40px;
+				border: 2px solid black;
+				border-bottom: 1px solid black;
+				padding-top: 10px;
+				background: linear-gradient(red, orange);
+			}
+
+			input {
+				height: 20px;
+				width: 120px;
+				line-height: 20px;
+				text-align: center;
+			}
+
+			button {
+				width: 60px;
+				height: 25px;
+				text-align: center;
+				line-height: 25px;
+				cursor: pointer;
+				background-color: cadetblue;
+				color: white;
+				border: none;
+			}
+
+			button:hover {
+				background-color: black;
+			}
+
+			table {
+				width: 600px;
+				border-collapse: collapse;
+			}
+
+			table,
+			th,
+			tr,
+			td {
+				border: 1px solid black;
+				text-align: center;
+			}
+
+			th,
+			td {
+				height: 40px;
+				line-height: 40px;
+			}
+
+			tr:hover {
+				background-color: gainsboro;
+				cursor: pointer;
+			}
+
+			#head {
+				background-color: lightblue;
+			}
+
+			a:hover {
+				color: red;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<h2>图书管理</h2>
+			<p>
+				&nbsp;&nbsp;&nbsp;
+				<b>编号:</b>
+				<input type="text" v-model="stuno" :disabled="isDisabled" v-focus>
+				&nbsp;&nbsp;&nbsp;
+				<b>名称:</b>
+				<input type="text" v-model="name">
+				&nbsp;&nbsp;&nbsp;
+				<button @click="handleAdd" :disabled="isDisabled1">提交</button>
+				&nbsp;&nbsp;&nbsp;
+				<span style="color:white;">图书总数: &nbsp;&nbsp;{{sum}}</span>
+			</p>
+			<table>
+				<tr id="head">
+					<th>编号</th>
+					<th>名称</th>
+					<th>时间</th>
+					<th>操作</th>
+				</tr>
+				<tr :key="data.stuno" v-for="(data,index) in datalist">
+					<td>{{data.stuno}}</td>
+					<td>{{data.name}}</td>
+					<td>
+						<span v-if="index<4">{{data.date}}</span><!-- 前四条不过滤，不进行日期格式化 -->
+						<span v-else>{{data.date | format("yyyy-MM-dd")}}</span><!-- 过滤 ，日期格式化-->
+					</td>
+					<td><a href="#" @click.prevent="update(index)">修改</a> | <a href="#" @click.prevent="handleDel(index)">删除</a></td>
+				</tr>
+			</table>
+		</div>
+
+		<script>
+			Vue.filter("format", function(value, arg) {//全局过滤器（日期格式化）,value-->当前操作的日期元素;arg-->格式化规则
+				if (arg == 'yyyy-MM-dd') {
+					var ret = "";
+					ret += value.getFullYear() + "-" + (value.getMonth() + 1) + "-" + value.getDate();
+					return ret;
+				}
+				return value;
+			})
+			
+			let vm = new Vue({
+				el: "#app",
+				data: {
+					stuno: "",
+					name: "",
+					isDisabled: false,//标注是否禁用
+					isDisabled1:false,
+					datalist: []
+				},
+				methods: {
+					handleAdd: function() {//提交操作
+						if (this.isDisabled == true) { //判断是否为修改操作
+							for (var i = 0; i < this.datalist.length; i++) { //修改操作
+								if (this.stuno == this.datalist[i].stuno) {
+									this.datalist[i].name = this.name;
+									break;
+								}
+							}
+							//解除编号禁用，同时清空输入框
+							this.isDisabled = false;
+							this.stuno = "";
+							this.name = "";
+						} else { //新增操作
+							if (this.stuno != "" && this.name != "") { //判断输入是否为空
+								var flag = true;//记录变化值
+								for (var i = 0; i < this.datalist.length; i++) { //判断新的元素编号是否重复
+									if (this.stuno == this.datalist[i].stuno) {//重复
+										flag = false;
+										break;
+									} else {//不重复
+										flag = true;
+									}
+								}
+
+								if (flag) { //新元素编号不重复
+									var obj = { //创建新元素
+										stuno: this.stuno,
+										name: this.name,
+										date: new Date()
+									};
+									this.datalist.push(obj); //添加新记录到列表中
+									//解除编号禁用，同时清空输入框
+									this.isDisabled = false;
+									this.stuno = "";
+									this.name = "";
+								} else { //新元素编号重复
+									alert("编号不能重复！");
+									//解除编号禁用，同时清空输入框
+									this.isDisabled = false;
+									this.stuno = "";
+									this.name = "";
+								}
+
+
+							} else {
+								alert("编号和名称不能为空！");
+							}
+						}
+
+					},
+					update: function(index) { //更新记录 index-->为当前操作的元素
+						this.stuno = this.datalist[index].stuno;
+						this.name = this.datalist[index].name;
+						this.isDisabled = true; //编号框禁用
+					},
+					handleDel: function(index) { //删除记录 index-->为当前操作的元素
+						this.datalist.splice(index, 1);//从index开始,删除1个数据
+					}
+				},
+				directives:{//自定义指令，（获取表单焦点）
+					"focus":{
+						inserted:function(el){
+							el.focus();
+						}
+					}
+				},
+				computed:{//计算属性(统计图书总数)
+					sum:function(){
+						return this.datalist.length;
+					}
+				},
+				watch:{//监听器（验证图书名称是否已经存在）
+					name:function(val){
+						//验证图书名称是否已经存在
+						var flag = this.datalist.some(function(item){
+							return item.name == val;
+						})
+						if(flag){//图书名存在
+							this.isDisabled1=true;
+						}else{
+							this.isDisabled1=false;
+						}
+					}
+				},
+				mounted:function(){//生命周期，钩子函数
+					//该声明周期钩子函数被触发的时候，模板已经可以使用
+					//一般此时用于获取后台数据，然后把数据填充到模板
+					var data = [
+						{//模拟后端数据
+								stuno: 1,
+								name: "三国演义",
+								date: "2018-01-01",
+							},
+							{
+								stuno: 2,
+								name: "水浒传",
+								date: "2018-01-01",
+							},
+							{
+								stuno: 3,
+								name: "红楼梦",
+								date: "2018-01-01",
+							},
+							{
+								stuno: 4,
+								name: "西游记",
+								date: "2018-01-01",
+							}
+					];
+					this.datalist = data;
+				}
+			})
+		</script>
+	</body>
+</html>

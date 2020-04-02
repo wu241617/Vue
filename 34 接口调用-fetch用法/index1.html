@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>fetch请求参数</title>
+	</head>
+	<body>
+		
+		<script>
+			/*
+			 fetch请求参数
+			 1,常用配置选项
+			 -->methos(String):HTTP请求方式。默认GET（GET,POST,PUT,DELETE）
+			 -->body(String):HTTP请求参数(post和put)
+			 -->headers(Object):HTTP的请求头，默认{}(post和put)
+					 body:"uname=wuhao&pwd=123456",
+					 headers:{
+						'Content-Type':'application/x-www-form-urlencoded'
+					 }
+					===================================== 
+					 body:JSON.stringfy({
+						uname:wuhao,
+						pwd:123456
+					 }),
+					 headers:{
+						'Content-Type':'application/json'
+					 } 
+			 2,响应数据格式
+			 -->text():将返回体处理成字符串类型
+			 -->json():返回结果和JSON.parse(reponseText)一样
+			 */
+			fetch("test.php?id=123",{//get查找
+				method:"get"
+			}).then(function(data){
+				return data.text();
+			}).then(function(data){
+				console.log(data);
+			}); 
+			
+			fetch("test1.php",{//post增加
+				method:"post",
+				body:"uname=wuhao&pwd=123456",
+				headers:{
+					'Content-Type':'application/x-www-form-urlencoded'
+				}
+				/* 
+				body:JSON.stringfy({
+					uname:wuhao,
+					pwd:123456
+				}),
+				headers:{
+					'Content-Type':'application/json'
+				} 
+				*/
+			}).then(function(data){
+				return data.text();
+			}).then(function(data){
+				console.log(data);
+			});
+			
+			fetch("test1.php?id=1",{//put修改
+				method:"post",
+				body:"uname=wuhao&pwd=123456",
+				headers:{
+					'Content-Type':'application/x-www-form-urlencoded'
+				}
+			}).then(function(data){
+				return data.text();
+			}).then(function(data){
+				console.log(data);
+			});
+			
+			/* fetch("test.php?id=789",{//delete删除
+				method:"delete"
+			}).then(function(data){
+				return data.text();
+			}).then(function(data){
+				console.log(data);
+			}); */
+		</script>
+	</body>
+</html>

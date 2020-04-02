@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>组件props</title>
+		<script src="Vue.js"></script>
+		<style type="text/css">
+			*{
+				margin:0;
+				padding:0;
+			}
+			html,body{
+				height:100%;
+				width:100%;
+			}
+			#box{
+				width:400px;
+				min-height:50px;
+				margin:50px auto;
+				padding:20px;
+				border:2px solid black;
+				box-shadow:10px 20px 20px 10px gray;
+			}
+			h3{
+				height:40px;
+				line-height:40px;
+				width:100%;
+				text-align:center;
+				background-color:black;
+				color:white;
+			}
+			hr{
+				margin:20px 0;
+				background-color:red;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box">
+			<h3>父子组件之间的通信-->props（父传子）</h3>
+			<hr>
+			<hello name="wuhao" age="23"></hello>
+			<hello name="wenyan" age="19"></hello>
+		</div>
+		
+		<script>
+			/* 
+			 在vue中父子组件的关系可以总结为：props down , events up
+			 -->父组件通过props向下把数据传给子组件
+				 1,props:["name","age"]
+				 2,prop验证-->不满足类型会报错
+					 props:{
+						name:String,
+						age:Number
+					 } 
+			 -->子组件通过events向上把数据传给父组件
+			 */
+			var vm = new Vue({
+				el:"#box",
+				data:{
+					
+				},
+				components:{
+					"hello":{
+						template:`<div>我是子组件--->{{name}}--->{{age}}</div>`,
+						//props:["name","age"],
+						//prop验证-->不满足类型会报错
+						props:{
+							name:String,
+							age:Number
+						} 
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

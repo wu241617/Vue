@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Tab选项卡</title>
+		<script src="Vue.js"></script>
+		<style type="text/css">
+			*{
+				margin:0;
+				padding:0;
+			}
+			html,body{
+				height:100%;
+				width:100%;
+			}
+			#app{
+				width:800px;
+				height:50px;
+				margin:100px;
+			}
+			ul{
+				width:800px;
+				height:50px;
+				list-style:none;
+				display:flex;
+				background:linear-gradient(red,orange);
+				border:2px solid black;
+			}
+			ul li{
+				height:50px;
+				line-height:50px;
+				flex:1;
+				text-align:center;
+			}
+			a{
+				text-decoration:none;
+				color:black;
+				display:block;
+				width:100%;
+				height:50px;
+			}
+			.active{
+				background-color:black;
+				color:white !important;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<ul>
+				<li  :key="data" v-for="(data,index) in datalist">
+					<!-- :class="currentIndex==index?'active':''"过滤满足条件的一项添加样式，其余不添加 -->
+					<a @click="change(index)" href="#" :class="currentIndex==index?'active':''">{{data}}</a>
+				</li>
+			</ul>
+		</div>
+		
+		<script>
+			let vm = new Vue({
+				el:"#app",
+				data:{
+					currentIndex:0,//当前元素下标索引
+					datalist:["主页","住宿","风景","留言","讨论区","路线"]
+				},
+				methods:{
+					change:function(index){
+						this.currentIndex=index;//更新当前下标索引值
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

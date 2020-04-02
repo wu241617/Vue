@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>组件非父子通信</title>
+		<script src="Vue.js"></script>
+		<style type="text/css">
+			*{
+				margin:0;
+				padding:0;
+			}
+			html,body{
+				height:100%;
+			    width:100%;
+			}
+			#box{
+				width:500px;
+				min-height:200px;
+				margin:50px auto;
+				padding:20px;
+				border:2px solid black;
+			}
+			h3{
+				height:50px;
+				line-height:50px;
+				width:100%;
+				text-align:center;
+				background-color:black;
+				color:white;
+				margin-bottom:20px;
+			}
+			hr{
+				background-color:red;
+				margin:20px 0;
+			}
+			button{
+				width:60px;
+				height:30px;
+				line-height:30px;
+				text-align:center;
+				border:none;
+				background-color:black;
+				color:white;
+				cursor:pointer;
+				float:right;
+			}
+			button:hover{
+				background-color:red;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box">
+			<h3>同级组件之间的通信</h3>
+			<helloa></helloa>
+			
+			<hr>
+			<hellob></hellob>
+			<p></p>
+			<hr>
+		</div>
+		
+		<script>
+			/* 
+			 非父子通信：
+			 1,单独的事件中心管理组件间的通信-->var bus = new Vue()
+			 2,监听事件和销毁事件-->包含在mounted生命周期中bus.$on("event",function(data){...})  bus.$off("event")
+			 3,触发事件-->bus.$emit("event",id);
+			 
+			 -->中央事件总线 bus = new Vue();mounted生命周期中进行监听
+			 -->vuex状态管理(复杂时候用)
+			 */
+			var bus = new Vue();
+			
+			var vm = new Vue({
+				el:"#box",
+				data:{
+				   hello:""
+				},
+				components:{
+					"helloa":{//同级组件
+						template:`<div>我是子组件helloa
+						<button @click="changeA">click</button>
+						</div>
+						`,
+						methods:{
+							changeA:function(){
+								//发送消息给组件hellob
+								bus.$emit("xiaoming","来自组件a的问候！");
+							}
+						}
+						
+					},
+					"hellob":{//同级组件
+						template:`
+						<div>
+						     我是子组件hellob
+						</div>`,
+						mounted(){//mounted生命周期中进行监听,挂载的钩子函数
+							//console.log("b组件的挂载的钩子函数");
+							
+							bus.$on("xiaoming",function(value){
+								//console.log(value);
+								document.querySelector("p").innerHTML = value;
+							});
+						}
+					}
+				}
+			})
+			
+		</script>
+	</body>
+</html>

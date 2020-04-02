@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>多元素多组件过度</title>
+		<script src="Vue.js"></script>
+		<style>
+			*{
+				margin:0;
+				padding:0;
+			}
+			html,body{
+				height:100%;
+				width:100%;
+			}
+			body{
+				padding-left:20px;
+			}
+			footer{
+				height:40px;
+				width:100%;
+			}
+			footer ul{
+				height:40px;
+				width:100%;
+				list-style:none;
+				display:flex;
+				position:absolute;
+				left:0;
+				bottom:0;
+			}
+			footer ul li{
+				flex:1;
+				height:40px;
+				line-height:40px;
+				text-align:center;
+				background-color:gray;
+				cursor:pointer;
+			}
+			.active{
+				background-color:black;
+				color:white;
+			}
+			.fade-enter-active,.fade-leave-active{
+				transition:all 1s ;
+			}
+			.fade-enter,.fade-leave-to{
+				transform:translateX(20px);
+				opacity: 0;
+			}
+			hr{
+				background-color:red;
+				margin:30px 0;
+			}
+			button{
+				width:80px;
+				height:30px;
+				line-height:30px;
+				text-align:center;
+				cursor:pointer;
+				background-color:black;
+				color:white;
+				border:none;
+				margin-top:20px;
+			}
+			button:hover{
+				background-color:red;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box">
+			<button @click = "changeClick">click</button>
+			<hr>
+			<transition name="fade" appear appear-active-class="fade-enter-active">
+				<p v-show="isShow">111111</p>
+			</transition>
+			
+			<transition name="fade" mode="in-out"><!-- in-out先走再来，反之先来再走 -->
+				<p v-if="isShow" key="1">2222222</p>
+				<p v-else key="2">3333333</p>
+			</transition>
+			<hr>
+			
+			
+			<keep-alive>
+				<transition name="fade" mode="in-out">
+					<component :is="current"></component>
+				</transition>
+			</keep-alive>
+			<footer>
+				<ul>
+					<li @click = "changeClick1('home')" :class="{active:current=='home'}">home</li>
+					<li @click = "changeClick1('list')" :class="{active:current=='list'}">list</li>
+					<li @click = "changeClick1('shopCar')" :class="{active:current=='shopCar'}">shopCar</li>
+				</ul>
+			</footer>
+			
+			
+		</div>
+		
+		<script>
+			/* 
+			 2,初始元素过度appear appear-active-class="..."
+			 */
+			var vm = new Vue({
+				el:"#box",
+				data:{
+					isShow:true,
+					current:"home"
+				},
+				methods:{
+					changeClick:function(){
+						this.isShow = !this.isShow;
+					},
+					changeClick1:function(data){
+						this.current = data;
+					}
+				},
+				components:{
+					"home":{
+						template:` <div>111111 this is a home!!! </div>`
+					},
+					"list":{
+						template:` <div>222222 this is a list!!! </div>`
+					},
+					"shopCar":{
+						template:` <div>333333 this is a shopCar!!! </div>`
+					}
+				}
+			})
+			/* 
+			 3,多个元素
+			 4,多个组件过度
+			 */
+			
+		</script>
+	</body>
+</html>

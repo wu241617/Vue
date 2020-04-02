@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>补充知识-数组更新检测:</title>
+		<script src="Vue.js"></script>
+		<style type="text/css">
+			*{
+				margin:0;
+				padding:0;
+			}
+			html,body{
+				height:100%;
+				width:100%;
+			}
+			#app{
+				width:600px;
+				min-height:300px;
+				margin:50px auto;
+				padding:20px;
+				border:2px solid black;
+				box-shadow:10px 20px 20px 10px gray;
+			}
+			hr{
+				margin:20px 0;
+			}
+			ul{
+				list-style:none;
+			}
+			ul li{
+				width:100%;
+				height:30px;
+				line-height:30px;
+				cursor:pointer;
+			}
+			ul li:hover{
+				background-color:gainsboro;
+			}
+			button{
+				width:60px;
+				height:30px;
+				line-height:30px;
+				text-align:center;
+				cursor:pointer;
+				background-color:black;
+				color:white;
+				border:none;
+				margin:0 20px;
+			}
+			button:hover{
+				background-color:red;
+			}
+			input{
+				height:25px;
+				line-height:25px;
+				text-align:center;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<p>
+				<span>输入区:&nbsp;&nbsp;&nbsp;&nbsp;</span>
+				<input type="text" v-model="mytext" placeholder="请输入内容:">
+				<button @click="add">添加</button>
+				<button @click="del">删除</button>
+				<button @click="change">替换</button>
+			</p>
+				<hr>
+				<ul>
+					<li v-for="(data,index) in datalist" :key="index">
+						{{data}}
+					</li>
+				</ul>
+				<hr>
+				<p>{{info.name}}</p>
+				<p>{{info.age}}</p>
+				<p>{{info.gender}}</p>
+		</div>
+		
+		<script>
+			/* 
+			数组更新检测:
+			 vue包含一组观察数组的变异方法，所以它们也将会触发视图更新：方法如下：
+			 -->变异方法：push() pop() shift() unshift() splice sort reverse()
+			 -->替换数组：filter() concat() slice()-->生成新的数组
+			 数组响应式变化:(修改响应式数据)
+			 -->Vue.set(vm.items,index,newValue);
+			 -->vm.$set(vm.items,index,newValue);
+			 参数一:要处理的数组名称;
+			 参数二:要处理的数组的索引;
+			 参数三:要处理的数组的值;
+			 
+			 */
+			let vm = new Vue({
+				el:"#app",
+				data:{
+					mytext:"",
+					datalist:["apply","orange","bananam"],
+					info:{
+						name:"xiaozhou",
+						age:23,
+					}
+				},
+				methods:{
+					add:function(){
+						if(this.mytext != ""){
+							this.datalist.push(this.mytext);
+							this.mytext="";
+						}else{
+							alert("请输入内容!");
+						}		
+					},
+					del:function(){
+						if(this.datalist.length > 0){
+							this.datalist.pop();
+						}else{
+							alert("没有可删除的选项!");
+						}
+					},
+					change:function(){
+						this.datalist = this.datalist.concat(["run","white"]);
+					}
+				}
+			})
+			//修改数据，渲染在页面(响应式数据)
+			vm.$set(vm.datalist,1,"wuhao");
+			Vue.set(vm.datalist,2,"zhouding");
+			vm.$set(vm.info,"gender","male");
+		</script>
+	</body>
+</html>

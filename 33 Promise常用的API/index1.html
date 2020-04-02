@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Promise常用的API</title>
+	</head>
+	<body>
+		
+		<script>
+			/* 
+			 2,对象方法
+			 -->Promise.all()-->并发的处理多个异步任务，所有任务都执行完才能得到结果
+			 -->Promise.race()-->并发处理多个异步任务，只要一个任务完成就能得到结果
+			 -->resolve和reject...
+			 */
+			
+			function queryData(url){
+				var p = new Promise(function(resolve,reject){
+					var xhr = new XMLHttpRequest();
+					xhr.onreadystatechange = function(){
+						if(xhr.readyState!=4){
+							return;
+						}
+						if(xhr.readyState==4&&xhr.status==200){
+							resolve(xhr.responseText);
+						}else{
+							reject("服务器出错！");
+						}
+					}
+					xhr.open("get",url);
+					xhr.send(null);
+				});
+				return p;
+			}
+			
+			var p1 = queryData("test.txt");
+			var p2 = queryData("test1.txt");
+			var p3 = queryData("test2.txt");
+			
+			Promise.all([p1,p2,p3]).then(function(result){
+				console.log(result);//全部任务结束后，得到全部结果
+			})
+			
+			Promise.race([p1,p2,p3]).then(function(result){
+				console.log(result);//只要一个任务完成，得到最先的结果
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>实例</title>
+		<script src="Vue.js"></script>
+		<style type="text/css">
+			*{
+				margin:0;
+				padding:0;
+			}
+			html,body{
+				height:100%;
+				width:100%;
+			}
+			#app{
+				width:1000px;
+				min-height:200px;
+				border:2px solid black;
+				margin:50px auto;
+				padding:20px;
+				box-shadow:10px 20px 20px 10px gray;
+			}
+			h3{
+				height:50px;
+				text-align:center;
+				line-height:50px;
+				background-color:black;
+				color:white;
+				margin-bottom:20px;
+			}
+			button{
+				width:80px;
+				height:30px;
+				text-align:center;
+				line-height:30px;
+				cursor:pointer;
+				background-color:black;
+				color:white;
+				border:none;
+				margin-bottom:20px;
+				margin-left:280px;
+			}
+
+			button:hover{
+				background-color:red;
+			}
+			p{
+				margin-bottom:20px;
+			}
+			hr{
+				margin:20px 0;
+			}
+			ul{
+				list-style:none;
+			}
+			ul li{
+				margin:5px 0;
+				border-bottom:1px solid black;
+				padding:10px 0;
+			}
+			ul li:nth-child(8){
+				border:0;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<h3>Vue实例化时的生命周期(钩子函数)</h3>
+			<p>{{message}}</p>
+			<hr>
+			<ul>
+				<li :key="data.id" v-for="data in datalist">
+					{{data.text}}
+				</li>
+			</ul>
+			<hr>
+			<button @click="update">update</button>
+			<button @click="destroy" >destroy</button>
+			<hr>
+			<div :style="obj">点击按钮控制台查看结果</div>
+		</div>
+		
+		<script>
+			let vm = new Vue({
+				el:"#app",
+				data:{
+					message:"生命周期:",
+					obj:{
+						textAlign:"center",
+						fontWeight:"bold" 
+					},
+					datalist:[
+						{
+							id:1,
+							text:"1, beforeCreate === 组件实例刚被创建，组件属性计算之前，如data属性等（可以在这加个loading事件 ）"
+						},
+						{
+							id:2,
+							text:"1, created === 组件实例创建完成，属性已绑定，但DOM未生成，$el属性不存在（在这结束loading，还做一些初始化，实现函数自执行 ）"
+						},
+						{
+							id:3,
+							text:"3, beforeMount === 模板编译/挂载之前调用"
+						},
+						{
+							id:4,
+							text:"4, mounted === 模板编译/挂载之后调用（ 在这发起后端请求，拿回数据，配合路由钩子做一些事情）"
+						},
+						{
+							id:5,
+							text:"5, beforeUpdate === 组件更新之前调用"
+						},
+						{
+							id:6,
+							text:"6, updated === 组件更新之后调用"
+						},
+						{
+							id:7,
+							text:"7, beforeDestroy === 组件销毁前调用（你确认删除XX吗？ destroyed ：当前组件已被删除，清空相关内容）"
+						},
+						{
+							id:8,
+							text:"8, destroyed === 组件销毁后调用"
+						}
+					]
+				},
+				methods:{
+					update:function(){
+						this.message="信息已更新!";
+					},
+					destroy:function(){
+						this.$destroy();//销毁相关资源
+					}
+				},
+				beforeCreate:function(){
+					console.log("beforeCreate");
+				},
+				created:function(){
+					console.log("created");
+				},
+				beforeMount:function(){
+					console.log("beforeMount");
+				},
+				mounted:function(){//初始化完成
+					console.log("mounted");
+				},
+				beforeUpdate:function(){
+					console.log("beforeUpdate");
+				},
+				updated:function(){
+					console.log("updated");
+				},
+				beforeDestroy:function(){
+					console.log("beforeDestroy");
+				},
+				destroyed:function(){
+					console.log("destroyed");
+				}
+				
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="Vue.js"></script>
+		<style type="text/css">
+			*{
+				margin:0;
+				padding:0;
+			}
+			html,body{
+				height:100%;
+				width:100%;
+			}
+			#app{
+				width:600px;
+				min-height:200px;
+				border:2px solid black;
+				margin:50px auto;
+				padding:20px;
+				box-shadow:10px 20px 20px 10px gray;
+			}
+			h3{
+				height:40px;
+				line-height:40px;
+				text-align:center;
+				background-color:black;
+				color:white;
+				margin-bottom:20px;
+			}
+			hr{
+				margin:20px 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<h3>v-for遍历对象---v-if和v-for结合使用</h3>
+			<div v-for="(value,key,index) in obj" style="text-align:center;"><!-- 对象的遍历 -->
+				{{value+'---'+key+'---'+index}}
+			</div>
+			<hr>
+			<div v-if="value==23||value=='run'"  v-for="(value,key,index) in obj" style="text-align:center;">
+				{{value+'---'+key+'---'+index}}<!-- v-if和v-for结合使用(过滤) -->
+			</div>
+		</div>
+		
+		<script>
+			let vm = new Vue({
+				el:"#app",
+				data:{
+					obj:{
+						name:"wuhao",
+						gender:"male",
+						age:23,
+						stuno:"1704240131",
+						hobby:"run"
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

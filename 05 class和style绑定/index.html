@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>class和style绑定</title>
+		<script src="Vue.js"></script>
+	</head>
+	<body>
+		<div id="box">
+			<p class="default" :class="isShow?'aaa':'bbb'">运算符改变class样式</p>
+			<p class="default" :class="{active:isShow,active1:isShow1}">对象改变class样式</p>
+			<p class="default" :class="[who,'active']">数组改变class样式</p>
+			<hr>
+			<p class="default" :style="{background:color}">对象改变style样式</p>
+			<p class="default" :style="obj">对象改变style样式</p>
+			<p class="default" :style="[obj,obj1]">数组改变style样式</p>
+			<hr>
+		</div>
+		
+		<script>
+			/* 
+			 class和style绑定：
+			 （1），绑定HTML Class
+			     -->对象语法 :class="{active:isShow,active1:isShow1}"
+				 -->数组语法 :class="[who,"active"]"
+				 
+			 （2）绑定内联样式 style
+			     -->对象语法 :style="obj"
+				 -->数组语法 :style="[obj,obj1]"	
+				  
+			 【注】-->font-size --- fontSize(驼峰命名法)
+				 
+			  (3)样式绑定相关语法细节：
+			     1，对象绑定和数组绑定可以结合使用
+				   -->:class="[who,active,{active:isShow}]"
+				 2，class绑定的值可以简化操作
+				 3，默认的class会保留
+			 */
+			var vm = new Vue({
+				el:"#box",
+				data:{
+					name:"wuhao",
+					isShow:false,
+					isShow1:false,
+					who:"aaa",//在数组中，可以作为变量存在，通过改变变量的方式，来修改对应的class
+					color:"red",
+					obj:{
+						background:"blue",
+						color:"white",
+						fontSize:"18px"
+					},
+					obj1:{
+						border:"4px solid red"
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

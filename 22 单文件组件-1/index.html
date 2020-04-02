@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>单文件组件-1</title>
+		<script src="Vue.js"></script>
+	</head>
+	<body>
+		<div id="box">	
+		</div>
+		
+		<script>
+			/* 【1】单文件组件格式：
+			1,
+			<template>
+				html代码
+			</template>
+			<script>
+				js代码
+			</script>
+			<style>
+				css代码
+			</style>
+			 ================================================
+			2,
+			<template>
+				html代码
+			</template>
+			<script src="外部js"></script>
+			<style src="外部css"></style>
+			 ================================================
+			 【2】官方vue脚手架  vue-cli (一个创建好的vue项目)
+			 //项目创建
+			 -->vue init webpack simple my project
+			 -->vue init webpack my project
+			 
+			 -->npm run dev 开发环境构建
+			 -->npm run build 生产环境构建
+			 
+			 【3】单文件使用方法讲解
+			 -->template html代码，最多可以包含一个
+			 -->script js代码，最多可以包含一个
+			 -->style css代码，可以包含多个
+			 */
+			var vm = new Vue({
+				el:"#box",
+				data:{
+					
+				}
+			})
+		</script>
+	</body>
+</html>

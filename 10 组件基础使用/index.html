@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>组件使用</title>
+		<script src="Vue.js"></script>
+		<style type="text/css">
+			*{
+				margin:0;
+				padding:0;
+			}
+			html,body{
+				height:100%;
+				width:100%;
+			}
+			#box,#box1{
+				width:600px;
+				min-height:120px;
+				border:2px solid black;
+				margin:50px auto;
+				padding:20px;
+				box-shadow:10px 20px 20px 10px gray;
+			}
+			ul{
+				list-style:none;
+			}
+			hr{
+				background-color:red;
+				margin:20px 0;
+			}
+			p{
+				border:2px solid black;
+				background:linear-gradient(red,yellow);
+			}
+			span{
+				display:block;
+				width:100%;
+				height:40px;
+				line-height:40px;
+				text-align:center;
+				background-color:black;
+				color:white;
+			}
+			b{
+				display:block;
+				width:60px;
+				height:50px;
+				line-height:50px;
+				text-align:center;
+				border-radius:50%;
+				margin-bottom:10px;
+				background-color:rgba(255,0,0,.7);
+				color:white;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box">
+			<b>#box</b>
+			<p><span>全局组件</span><hello></hello></p>
+			<hr>
+			<p><span>局部组件</span><hellobox></hellobox></p>
+		</div>
+		
+	    <div id="box1">
+			<b>#box1</b>
+	    	<p><span>全局组件</span><hello></hello></p><!-- 局部组件，有作用域限制，只有在id=box1中 -->
+	    </div>
+		
+		
+		<script type="text/javascript">
+			/* 
+			组件化规范:Web Components
+			组件：
+			 
+			 【1】，什么是组件：
+			     -->扩展HTML元素，封装可重用的代码(可多次使用)
+			 
+			 【2】，使用组件：(定义/注册组件)
+			     -->1，全局组件(定义/注册组件) Vue.component("name",{...})
+				 -->2，局部组件(定义/注册组件)
+				      components:{
+						  "name":{
+							  template:``,
+							  data:function(){
+								  retrun {
+									  
+								  }
+							  }
+						  }
+					  }
+				 -->3，组件内data必须是函数(构成闭包函数，保证每个组件数据的隔离)
+				 -->4，注意：
+				        -->自定义组件需要有一个 root element; 
+				        -->父子组件的data是无法共享的;
+					    -->组件可以有data methods computed...;
+				 -->5，父子组件的通信
+			  
+			  【3】，组件命名方式：
+			     -->【注】,如果使用驼峰式命名组件，那么在使用组件的时候，只能在模板字符串中用
+				 驼峰的方式使用组件，但是在不同的标签模板中，必须使用短横线使用组件.
+				 推荐:-->驼峰式命名组件  <helloWorld></helloWorld>
+				 -->短横线命名组件  <hello-world></hello-world>
+			  
+				 
+			 */
+			Vue.component("hello",{//定义全局组件，template `...`-->模板字符串
+				//组件模板内容
+				template:`
+			       <div style="padding:0 20px;">
+						我是hello组件-->{{name}}
+						<hr>
+						<ul>
+						     <li v-for="data in dataList">{{data}}</li>				   
+						</ul>
+						<hr>
+						<hellochild></hellochild>
+				   </div>
+				   
+				   `
+				   ,
+				   //组件内部数据
+				data:function(){//组件中data必须为函数，并且有return 返回值
+					return {
+						name:"wuhao",
+						dataList:["111","222","333"]
+					}
+				},
+				components:{//定义局部组件/子组件
+					"hellochild":{
+						template:`<div>我是box下独有的hellobox组件</div>`
+					}		
+				}
+			})
+			
+			var vm = new Vue({//声明并定义一个Vue对象
+				el:"#box",
+				data:{
+					name:"wuhao"
+				},
+				components:{//局部组件 `....`模板字符串
+					"hellobox":{
+						template:`<div style="text-align:center;">我是box下独有的hello组件</div>`
+					}
+				}
+			})
+			
+			var vm1 = new Vue({//声明并定义一个Vue对象
+				el:"#box1",
+				data:{
+					name:"wenyan"
+				}
+			})
+		</script>
+	</body>
+</html>

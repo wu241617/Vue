@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>事件处理器</title>
+		<script src="Vue.js"></script>
+		<style type="text/css">
+			*{
+				margin:0;
+				padding:0;
+			}
+			html,body{
+				height:100%;
+				width:100%;
+			}
+			#box{
+				width:140px;
+				min-height:300px;
+				border:2px solid black;
+				margin:50px auto;
+				padding:30px;
+				box-shadow:10px  20px 20px 10px gray;
+			}
+			button{
+				width:60px;
+				height:30px;
+				line-height:30px;
+				text-align:center;
+				border:none;
+				border:1px solid black;
+				cursor:pointer;
+				margin:20px 0;
+			}
+			button:hover{
+				background-color:red;
+				color:white;
+			}
+			ul{
+				list-style:none;
+				margin:20px 0;
+			}
+			input{
+				margin:20px 0;
+				width:135px;
+				text-align:center;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box">
+			<button @click="count=count-1">-</button>
+			<span>{{count}}</span>
+			<button  @click="count=count+1">+</button>
+			<hr>
+			
+			<p>{{name}}</p>
+			<button v-on:click="changeText($event)">change1</button>
+			<button v-on:click="changeText2('aaa','bbb',$event)">change2</button>
+			<hr>
+			<ul @click="changeUl">
+				<li @click.stop="changeLi()">111</li>
+				<li>222</li>
+				<li>333</li>
+			</ul>
+			<hr>
+			<input type="text" @keyup.enter="change" placeholder="请输入内容:"/>
+		</div>
+		
+		<script>
+			/* 
+			 事件处理器：
+			 /*
+			  事件绑定-参数传递
+			  <1>,如果事件直接绑定函数名称@click="click"，那么默认会传递
+			  事件对象作为事件函数的第一个参数
+			  <2>,如果事件绑定函数调用@click="click()"，那么事件对象必须最后一个
+			  参数显示传递，并且事件对象的名称必须是$event
+			  
+			 1,监听事件，直接触发代码
+			 
+			 2,方法事件处理器，写函数名
+			 
+			 3,内联处理器方法，执行函数表达式
+			 
+			 4,事件修饰符
+			 .stop（阻止冒泡）;
+			 .prevent（阻止默认行为）;
+			 .capture（添加事件监听器时使用事件捕获模式）;
+			 .self（只当在 event.target 是当前元素自身时触发处理函数）;
+			 .once（点击事件将只会触发一次）;
+			 .passive（滚动事件的默认行为 (即滚动行为) 将会立即触发）;
+			 -->修饰符可以串联 .stop.prevent...(有顺序问题)
+			 -->@click.prevent.self(阻止所有点击)
+			 -->@click.self.prevent(只会阻止对元素本身的点击)
+			 
+			 5,按键修饰符
+				.enter .tab .delete (捕获“删除”和“退格”键) .esc .space .up .down .left
+				.right .ctrl .alt .shift .meta .exact 修饰符允许你控制由精确的系统修饰符组合触发的事件。
+				鼠标按钮修饰符
+				    .left .right .middle
+				-->自定义按键修饰符Vue.config.keyCode.f1=112;
+				   规则：自定义按键修饰符名字是自定义的，但是对应的值必须
+				   是按键对应event.keyCode值
+		
+			 */
+			var vm = new Vue({
+				el:"#box",
+				data:{
+					count:1,
+					name:"wuhao"
+				},
+				methods:{
+					changeText:function(ev){
+						console.log(ev.target);
+						return this.name="wangwenyan";
+					},
+					changeText2:function(data1,data2,ev){
+						console.log(data1);
+						console.log(data2);
+						console.log(ev.target);
+					},
+					changeLi:function(){
+						console.log("li点击");
+					},
+					changeUl:function(){
+						console.log("ul点击");
+					},
+					change:function(ev){
+						console.log(ev.target.value);
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

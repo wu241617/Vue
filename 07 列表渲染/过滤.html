@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>显示过滤属性 -->使用计算属性</title>
+		<script src="Vue.js"></script>
+	</head>
+	<body>
+		<div id="box">
+			<input type="text" v-model="mytext">
+			<ul>
+				<li v-for="data in computeddataList">
+					{{data}}
+				</li>
+			</ul>
+		</div>
+		
+		<script>
+			var vm = new Vue({
+				el:"#box",
+				data:{
+					dataList:["wuhao","wangwenyan","yuanyuan","maxiaohui","xinyi","aiqiyi"],
+					mytext:""
+				},
+				computed:{
+					computeddataList:function(){
+						return this.dataList.filter(item=>item.indexOf(this.mytext)>-1);
+					}
+				}
+			})
+			
+		</script>
+	</body>
+</html>

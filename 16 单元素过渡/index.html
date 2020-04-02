@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>单元素过度</title>
+		<script src="Vue.js"></script>
+		<style type="text/css">
+			*{
+				margin:0;
+				padding:0;
+			}
+			html,body{
+				height:100%;
+				width:100%;
+			}
+			#box{
+				width:400px;
+				height:300px;
+				border:2px solid black;
+				margin:50px auto;
+				padding:20px;
+				box-shadow:10px 20px 20px 10px gray;
+			}
+			button{
+				width:60px;
+				height:30px;
+				line-height:30px;
+				text-align:center;
+				background-color:black;
+				color:white;
+				cursor:pointer;
+				border:none;
+				margin-bottom:20px;
+			}
+			button:hover{
+				background-color:red;
+			}
+			.slide-fade-enter-active {
+			  transition: all 1s ease;
+			}
+			.slide-fade-leave-active {
+			  transition: all 1s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+			}
+			.slide-fade-enter, .slide-fade-leave-to
+			/* .slide-fade-leave-active for below version 2.1.8 */ {
+			  transform: translateX(10px);
+			  opacity: 0;
+			}
+			.bounce-enter-active{
+				animation:bounce-in 1s;
+			}
+			.bounce-leave-active{
+				animation:bounce-in 1s reverse;
+			}
+			@keyframes bounce-in{
+				0%{
+					transform: translateX(100px);
+				}
+				50%{
+					transform: translateX(50px);
+				}
+				100%{
+					transform: translateX(0px);
+				}
+			}
+			hr{
+				margin:20px 0;
+			}
+		</style>
+		<link href="https://cdn.jsdelivr.net/npm/animate.css@3.5.1" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+		<div id="box">
+			<button @click = "changeClick">click</button>
+			
+			<transition name="slide-fade">
+				<p v-show="isShow">111111</p>
+			</transition>
+			<hr v-show="isShow">
+			
+			<transition name="bounce">
+				<p v-show="isShow">222222</p>
+			</transition>
+			<hr v-show="isShow">
+			
+			<transition name="" 
+			enter-active-class="animated tada"
+			leave-active-class="animated bounceOutRight">
+				<p v-show="isShow">333333</p>
+			</transition>
+			<hr v-show="isShow">
+			
+		</div>
+		
+		<script>
+			/* 
+			 过渡效果：Vue在插入，更新或者移除DOM时，提供多种不同方式的应用。
+			 1，单元素/组件过度：
+			   -->css过度
+			   -->css动画
+			   -->结合animate动画库
+			 2，初始渲染过度
+			   -->appear appear-active-class
+			 3，多个元素过度（设置key）
+			   -->当有相同标签名的元素切换时，需要通过key特性设置唯一的值来标识
+			 4，多个组件过度
+			 5，列表过度（设置key）
+			   -->transition-group不同于transition，它会以一个真实元素呈现
+			   -->提供唯一的key属性值
+			 6，可复用过度
+			 
+			 */
+			var vm = new Vue({
+				el:"#box",
+				data:{
+					isShow:false
+				},
+				methods:{
+					changeClick:function(){
+						this.isShow = !this.isShow;
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

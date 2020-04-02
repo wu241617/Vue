@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>前后端交互模式</title>
+		<script src="Vue.js"></script>
+		<style type="text/css">
+			*{
+				margin:0;
+				padding:0;
+			}
+			html,body{
+				height:100%;
+				width:100%;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			
+		</div>
+		
+		<script>
+			/* 
+			 前后端交互模式
+			 【1】,接口调用方式
+			  -->原生ajax
+			  -->基于jQuery的ajac
+			  -->fetch(API,增强版的ajax)
+			  -->axios(第三方库)
+			  
+			  【2】,URL地址格式
+			  -->传统形式的URL--后面参数？后
+			  格式:schema://host:port/path?query#fragment
+			  协议://主机（域名或IP地址）:端口号/路径/查询参数/#锚点
+			  
+			  -->Restful形式的URL--后面参数/后
+			  HTTP请求方式:GET(查询) POST(添加) (PUT)修改 DELETE(删除)
+			 */
+			let vm = new Vue({
+				el:"#app",
+				data:{
+					
+				}
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>vuex</title>
+	</head>
+	<body>
+		<h2>vuex-->状态管理模式</h2>
+		<p>vuex是一个专为vue.js应用程序开发的 状态管理模式。
+		它采用集中式存储管理应用的所有的状态，并以相应的规则
+		保证状态以一种可预测的方式发生变化。</p>
+		<hr>
+		<ol>
+			<li>
+				state:单一状态树，每个应用仅仅包含一个store实例<br>
+				this.$store.state.状态名字<br>
+				...mapState(["title"])
+				<hr>
+			</li>
+			<li>
+				getters:可以从store中的state中派生出一些状态<br>
+				可以认为是store的计算属性<br>
+				this.$store.getters.计算属性名字<br>
+				...mapGetters(["getFilms"])
+				<hr>
+			</li>
+			<li>
+				mutations:更改 Vuex 的 store 中的状态的唯一方法是提交mutations <br>
+				常量的设计风格:[SOME_MUTATION] (state) {//mutate state} <br>
+				必须是同步函数<br>
+				this.$store.commit("type","payload");
+			</li>
+			<li>
+				actions: <br>
+				Action 提交的是mutation,而不是变更状态<br>
+				Action 可以包含任意异步操作<br>
+				this.$store.dispatch("type","payload")
+				<hr>
+			</li>
+			<li>
+				<pre>
+					const store = new Vuex.Store({
+						state: {
+							count:0
+						},
+						mutations: {
+							increment(state,payload){
+								
+							}
+						},
+						actions :{
+							increment (context,payload){
+								context.commit("increment")
+							}
+						}
+					})
+				</pre>
+				<hr>
+			</li>
+			<li>
+				注意：应用层级的状态应该集中到单个store对象中<br>
+				提交mutation是更改状态的唯一方式，并且这个过程是同步的。<br>
+				异步逻辑都应该封装到action里面<br><hr>
+			</li>
+		</ol>
+	</body>
+</html>

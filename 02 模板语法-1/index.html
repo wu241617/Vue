@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>模板语法-1(声明式渲染)</title>
+		<script src="Vue.js"></script>
+		<style type="text/css">
+			*{
+				margin:0;
+				padding:0;
+			}
+			html,body{
+				height:100%;
+				width:100%;
+			}
+			#box{
+				width:200px;
+				min-height:150px;
+				border:2px solid black;
+				margin:50px auto;
+				text-align:center;
+			}
+			button{
+				display:block;
+				width:80px;
+				height:30px;
+				border:none;
+				line-height:30px;
+				background-color:black;
+				color:white;
+				text-align:center;
+				cursor:pointer;
+				margin:30px auto;
+			}
+			button:hover{
+				background-color:red;
+				color:white;
+			}
+			.red{
+				color:red;
+			}
+			.green{
+				color:green;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box">
+			{{name}} <hr>
+			<span v-if="isShow">{{age}}</span> <hr v-if="isShow">
+			<span v-show="isShow">{{10+5}}</span> <hr v-if="isShow">
+			<p v-html="love"></p><hr>
+			<!-- <p v-bind:class="isShow ? 'red' : 'green'">hello world</p> -->
+			<p :class="isShow ? 'red' : 'green'">hello world</p><hr>
+			<!-- <button v-on:click="click">click</button> -->
+			<button @click="click">click</button>
+			<div>{{num}}</div>
+			<button @click="handleClick">增加</button>
+		</div>
+		
+		<script>
+			//模板语法：
+			/*
+			1,插值：
+			   -->1,文本 {{}}	
+		       -->2,纯HTML v-html 防止XSS
+			   -->3,表达式 
+			   
+			2,指令：带有v- 前缀的特殊属性
+			   -->v-bind:class
+			   -->v-if v-else
+			   -->v-show
+			   -->v-on:click
+			
+			3,简写：
+			   v-bind:class <==> :class
+			   v-on:click <==> @click
+			 */
+			/* 
+			 事件绑定-参数传递
+			 1,如果事件直接绑定函数名称@click="click"，那么默认会传递
+			 事件对象作为事件函数的第一个参数
+			 2,如果事件绑定函数调用@click="click()"，那么事件对象必须最后一个
+			 参数显示传递，并且事件对象的名称必须是$event
+			 */
+			var vm = new Vue({
+				el:"#box",
+				
+				data:{
+					name:"wuhao",
+					age:23,
+					love:"<b>you</b>",
+					isShow:false,
+					num:0
+				},
+				
+				methods:{
+					click:function(){
+						this.isShow=!this.isShow;
+					},
+					handleClick:function(){
+						this.num += 1;
+					}
+				}
+			})
+		
+		</script>
+	</body>
+</html>

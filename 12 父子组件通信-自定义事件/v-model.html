@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="Vue.js"></script>
+	</head>
+	<body>
+		<div id="box">
+			<p>我是父组件中的{{mytext}}</p>
+			<hello v-model="mytext"></hello><!-- v-model双向数据绑定 -->
+		</div>
+		
+		<script>
+			var vm = new Vue({//Vue 对象
+				el:"#box",
+				data:{
+					mytext:"111"
+				},
+				components:{//子组件
+					"hello":{
+						template:`
+						<div>
+							我是value子组件
+							<input type="text" :value="value" @input="changeInput">
+						</div>`,
+						props:["value"],
+						methods:{
+							changeInput:function(ev){
+								this.$emit("input",ev.target.value);
+							}
+						}
+						
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

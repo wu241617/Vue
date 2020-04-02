@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>循环结构</title>
+		<script src="Vue.js"></script>
+		<style type="text/css">
+			*{
+				margin:0;
+				padding:0;
+			}
+			html,body{
+				height:100%;
+				width:100%;
+			}
+			#app{
+				width:600px;
+				min-height:300px;
+				margin:50px auto;
+				padding:20px;
+				border:2px solid black;
+				box-shadow:10px 20px 20px 10px gray;
+			}
+			table,td,th,tr{
+				border:1px solid black;
+				border-collapse: collapse;
+			}
+			tr,th{
+				height:50px;
+			}
+			td,th{
+				min-width:120px;
+				text-align:center;
+			}
+			th{
+				background-color:lightblue;
+			}
+			tr:hover{
+				background-color:gainsboro;
+				cursor:pointer;
+			}
+			caption{
+				height:40px;
+				line-height:40px;
+				background-color:black;
+				color:white;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<table>
+				<caption>信息详情表</caption>
+				<tr>
+					<th>姓名</th>
+					<th>性别</th>
+					<th>年龄</th>
+					<th>学院</th>
+					<th>班级</th>
+				</tr>
+				<tr v-for="data in datalist" :key="data">
+					<!-- key作用：帮助Vue区分不同的元素，从而提高性能；有无不影响实际开发 -->
+					<td>{{data.name}}</td>
+					<td>{{data.sex}}</td>
+					<td>{{data.age}}</td>
+					<td>{{data.college}}</td>
+					<td>{{data.grade}}</td>
+				</tr>
+			</table>
+		</div>
+		
+		<script>
+			let vm = new Vue({
+				el:"#app",
+				data:{
+					datalist:[
+						{
+							name:"吴浩",
+							sex:"男",
+							age:"23",
+							college:"计算机学院",
+							grade:"物联网11701班"
+							
+						},
+						{
+							name:"周桐",
+							sex:"女",
+							age:"20",
+							college:"服装学院",
+							grade:"服装11701班"
+							
+						},
+						{
+							name:"心儿",
+							sex:"女",
+							age:"19",
+							college:"会计学院",
+							grade:"会计11801班"
+							
+						},
+						{
+							name:"江涛",
+							sex:"男",
+							age:"21",
+							college:"外语学院",
+							grade:"外语11701班"
+							
+						},
+						{
+							name:"文艳",
+							sex:"女",
+							age:"20",
+							college:"管理学院",
+							grade:"信管11802班"
+							
+						}
+					]
+				}
+			})
+		</script>
+	</body>
+</html>

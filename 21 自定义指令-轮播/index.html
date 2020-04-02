@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>自定义指令-轮播</title>
+		<script src="Vue.js"></script>
+	</head>
+	<body>
+		<div id="box">
+			<example></example>
+		</div>
+		
+		<script>
+			/* 
+			 自定义指令-轮播：
+			 -->inserted插入最后一个元素时调用(vnode.context.datalist)
+			 -->this.$nextTick()-->将回调延迟到下次 DOM 更新循环之后执行。
+				 在修改数据之后立即使用它，然后等待 DOM 更新。它跟全局方法 Vue.nextTick 一样，
+				 不同的是回调的 this 自动绑定到调用它的实例上。
+			 */
+			/* vue.directive("swipe",function(el,binding){
+				
+			})
+			var vm = new Vue({
+				el:"#box",
+				data:{
+					datalist:[]
+				},
+				mounted(){//生命周期，在组件渲染在DOM节点上，调用
+					//请求数据(异步延迟函数)
+					setInterval(()=>{
+						this.datalist = ["111","222","333"];
+					},2000)
+				},
+				directives:{
+					
+				}
+				
+			}) */
+			Vue.component('example', {
+			  template: `
+			  <div>
+				  <span>{{ message }}</span>
+				  <button @click=" updateMessage">upDate</button>
+			  </div>
+			  `
+			  ,
+			  data: function () {
+			    return {
+			      message: 'not updated'
+			    }
+			  },
+			  methods: {
+			    updateMessage: function () {
+			      this.message = 'updated'
+			      console.log(this.$el.textContent) // => 'not updated'
+				  /*
+				    this.$nextTick()-->将回调延迟到下次 DOM 更新循环之后执行。在修改数据之后立即使用它，然后等待 DOM 更新。
+				   this.$nextTick()方法主要是用在随数据改变而改变的dom应用场景中，vue中数据和dom渲染由于是异步的，
+				   所以，要让dom结构随数据改变这样的操作都应该放进this.$nextTick()的回调函数中。created()中使用的方法时，
+				   dom还没有渲染，如果此时在该钩子函数中进行dom赋值数据（或者其它dom操作）时无异于徒劳，
+				   所以，此时this.$nextTick()就会被大量使用，而与created()对应的是mounted()的钩子函数则是在dom完全渲染后才开始渲染数据，
+				   所以在mounted()中操作dom基本不会存在渲染问题。
+				   */
+			      this.$nextTick(function () {
+			        console.log(this.$el.textContent) // => 'updated'
+			      })
+			    }
+			  }
+			})
+			
+			var vm = new Vue({
+				el:"#box",
+				data:{
+					
+				}
+			})
+		</script>
+	</body>
+</html>

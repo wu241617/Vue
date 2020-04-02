@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>列表渲染</title>
+		<script src="Vue.js"></script>
+		<style type="text/css">
+			*{
+				margin:0;
+				padding:0;
+			}
+			html,body{
+				height:100%;
+				width:100%;
+			}
+			#box{
+				width:400px;
+				min-height:300px;
+				margin:50px auto;
+				padding:20px;
+				border:2px solid black;
+				background:linear-gradient(red,yellow);
+			}
+			h3{
+				height:40px;
+				line-height:40px;
+				text-align:center;
+				width:100%;
+				background-color:black;
+				color:white;
+			}
+			ol,ul{
+				list-style:none;
+			}
+			li{
+				height:30px;
+				line-height:30px;
+				text-align:center;
+				border-bottom:1px solid black;
+				cursor:pointer;
+				margin:10px 0;
+				padding:0 20px;
+			}
+			li:hover{
+				background-color:rgba(0,0,0,.4);
+			}
+			li span{
+				float:left;
+			}
+			li b{
+				float:right;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box">
+			<h3>UL列表</h3>
+			<ul>
+				<li v-for="(data,index) in datalist" :key="index">
+					<span>{{data}}</span><b>---{{index}}</b>
+				</li>
+			</ul>
+			<h3>OL列表</h3>
+			<ol>
+				<li v-for="(data,index) of datalist1">
+					<span>{{data}}</span><b>---{{index}}</b>
+				</li>
+			</ol>
+		</div>
+		
+		<script>
+			/* 
+			 列表渲染：
+			 1,v-for
+			   -->in
+			   -->of
+			   
+			 2,key:
+			   -->跟踪每个节点的身份，从而重用和重新排序现有元素
+			   -->理想的key值是每一项都有的且唯一的id(绑定变量:key="id/...")
+			   
+			 3,数组更新检测
+			   -->使用以下方法操作数组，可以检测变动（浏览器渲染）push();pop();shift();unshift();splice();sort();reverse();
+			   -->使用以下方法操作数组，检测不到变动（浏览器不会渲染）filter();concat();slice();
+			       -->（解决方法，复制）新数组替换旧数组
+			   -->不能检测以索引号赋值变动的数组（浏览器不会渲染）
+			   arr[0]="111"-->(解决方法，改变渲染某一个特定数组元素)
+			      -->Vue.set(vm.dataList,0,"1111")
+			   
+			 4,应用：显示过滤属性
+			   -->使用计算属性
+			   
+			 */
+			var vm = new Vue({
+				el:"#box",
+				data:{
+					datalist:["aaa","bbb","ccc"],
+					datalist1:["wuhao","zhouding","xiner","wenyan"]
+				}
+			})
+		</script>
+	</body>
+</html>

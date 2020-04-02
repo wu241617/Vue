@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>动态组件</title>
+		<script src="Vue.js"></script>
+		<style>
+			*{
+				margin:0;
+				padding:0;
+			}
+			html,body{
+				height:100%;
+				width:100%;
+			}
+			footer ul{
+				list-style:none;
+				height:40px;
+				width:100%;
+				display:flex;
+				position:fixed;
+				left:0;
+				bottom:0;
+			}
+			footer ul li{
+                flex:1;
+		        height:40px;
+				text-align:center;
+				line-height:40px;
+				background-color:gray;
+				cursor:pointer;
+			}
+			footer ul li:hover{
+				background-color:black;
+				color:white;
+			} 
+			h2{
+				height:60px;
+				width:100%;
+				text-align:center;
+				line-height:60px;
+				background-color:black;
+				color:white;
+				font-size:18px;
+			}
+			.active{
+				background-color:black;
+				color:white;
+			}
+			p{
+				width:100%;
+				height:50px;
+				line-height:50px;
+				text-align:center;
+				margin:20px 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box">
+			<keep-alive><!-- <keep-alive>保留状态，避免重新渲染 -->
+				<component :is="current"></component><!-- <component>元素，动态的绑定多个组件到它的is属性 -->
+			</keep-alive>
+			
+			<footer>
+				<ul>
+					<li @click="changeClick('home')" :class="{active:current=='home'}">home</li>
+					<li @click="changeClick('list')" :class="{active:current=='list'}">list</li>
+					<li @click="changeClick('shopCar')" :class="{active:current=='shopCar'}">shopCar</li>
+				</ul>
+			</footer>
+		</div>
+		
+		<script>
+			/* 
+			 动态组件:
+			 --><component>元素，动态的绑定多个组件到它的is属性
+			 --><keep-alive>保留状态，避免重新渲染
+			 */
+			var vm = new Vue({
+				el:"#box",
+				data:{
+					current:"home",
+					isChecked:false
+				},
+				components:{
+					"home":{
+						template:`
+						<div>
+						    <h2>我是home组件</h2>
+							<div :style="obj">
+							    <h2>信息注册</h2>
+								<p>账号:<input	type="text"></p>	
+								<p>密码:<input	type="password"></p>	
+								<p>电话:<input	type="text"></p>
+								<p>邮件:<input	type="text"></p>
+								<p>QQ :<input	type="text"></p>
+								<hr>
+							</div>
+						</div>`,
+						data(){
+							return {
+								obj:{
+									width:"500px",
+									height:"480px",
+									margin:"50px auto",
+									padding:"20px",
+									border:"2px solid black",
+									boxShadow:"10px 20px 20px 10px gray"
+								}
+							}
+						}
+					},
+					"list":{
+						template:`
+						<div>
+							<h2>我是list组件</h2>
+						</div>
+						`
+					},
+					"shopCar":{
+						template:`
+						<div>
+							<h2>我是shopCar组件</h2>
+						</div>
+						`
+					}
+				},
+				methods:{
+					changeClick:function(value){
+						this.current = value;
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

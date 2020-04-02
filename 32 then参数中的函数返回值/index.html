@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>then参数中的函数返回值</title>
+	</head>
+	<body>
+		
+		<script>
+			/* 
+			 then参数中的函数返回值
+			 
+			 1,返回Promise实例对象
+			 -->返回的该实例对象 return p; 会调用下一个then,
+			 then参数为then(data)---上一个Promise对象的值
+			 
+			 2,返回普通值
+			 -->返回的普通值 return X;
+			 传递给下一个then,then(X)---参数为这个普通值
+			 
+			 */
+			
+			function queryData(url){
+				var p = new Promise(function(resolve,reject){
+					var xhr = new XMLHttpRequest();
+					xhr.onreadystatechange = function(){
+						if(xhr.readyState != 4){
+							return;
+						}
+						if(xhr.readyState==4&&xhr.status==200){
+							resolve(xhr.responseText);
+						}else{
+							reject("服务器出现错误！");
+						}
+					}
+					xhr.open("get",url);
+					xhr.send(null);
+				});
+				return p;
+			}
+			
+			queryData("test.txt").then(function(data){
+				return queryData("test1.txt");//返回一个Promise对象
+			}).then(function(data){//data=前一个data
+				return "hello";//返回一个普通值
+			}).then(function(data){//data="hello"
+				console.log(data);//"hello"
+			})
+		</script>
+	</body>
+</html>

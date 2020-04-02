@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>非父子组件通信</title>
+		<script src="Vue.js"></script>
+		<style type="text/css">
+			*{
+				margin:0;
+				padding:0;
+			}
+			html,body{
+				height:100%;
+				width:100%;
+			}
+			#app{
+				width:400px;
+				min-height:200px;
+				margin:50px auto;
+				padding:20px;
+				border:2px solid black;
+				box-shadow:10px 20px 20px 10px gray;
+			}
+			p,hr{
+				margin:20px 0;
+			}
+			button{
+				width:80px;
+				height:30px;
+				line-height:30px;
+				text-align:center;
+				background-color:black;
+				color:white;
+				border:none;
+				cursor:pointer;
+				margin:0 50px;
+			}
+			button:hover{
+				background-color:red;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<p>{{text}}</p>
+			<button @click="handle">销毁事件</button>
+			<hr>
+			<tom></tom>
+			<hr>
+			<jerry></jerry>
+			<hr>
+		</div>
+		
+		<script>
+			var bus = new Vue();//事件中心
+			
+			let vm = new Vue({//父组件
+				el:"#app",
+				data:{
+					text:"非父子组件(兄弟组件)之间的通信实例"
+				},
+				methods:{
+					handle:function(){
+						bus.$off("jerry-event");
+						bus.$off("tom-event");
+					}
+				},
+				components:{//子组件
+					"tom":{//tom子组件
+						template:`
+						<div>
+							<button @click="handle">点击</button>
+							<span>TOM:{{tom}}</span>
+						</div>
+						`,
+						data:function(){
+							return {
+								tom:0
+							}
+						},
+						methods:{
+							handle:function(){
+								bus.$emit("jerry-event",1);
+							}
+						},
+						mounted:function(){
+							bus.$on("tom-event",(data)=>{//事件监听
+								this.tom += data;
+							})
+						}
+					},
+					"jerry":{//jerry子组件
+						template:`
+						<div>
+							<button @click="handle">点击</button>
+							<span>JERRY:{{jerry}}</span>
+						</div>
+						`,
+						data:function(){
+							return {
+								jerry:0
+							}
+						},
+						methods:{
+							handle:function(){
+								bus.$emit("tom-event",2);//事件触发
+							}
+						},
+						mounted:function(){
+							bus.$on("jerry-event",(data)=>{//事件监听
+								this.jerry += data;
+							})
+						}
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

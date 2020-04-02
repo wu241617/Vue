@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="Vue.js"></script>
+		<style type="text/css">
+			*{
+				margin:0;
+				padding:0;
+			}
+			html,body{
+				height:100%;
+				width:100%;
+			}
+			#box{
+				width:400px;
+				height:300px;
+				border:2px solid black;
+				margin:50px auto;
+				padding:20px;
+			}
+			p{
+				height:40px;
+				line-height:40px;
+				text-align:center;
+				margin:10px 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box"><!-- name首字母大写 -->
+		{{name.substring(0,1).toUpperCase()+name.substring(1)}} <hr>
+		<p>计算属性：{{changeword}}</p><hr>
+		<p>计算属性：{{changeword}}</p><hr>
+		
+		<p>普通方法：{{changewordMethod()}}</p><hr>
+		<p>普通方法：{{changewordMethod()}}</p><hr>
+		
+		<p>{{msg}}&nbsp;&nbsp;&nbsp;---&nbsp;&nbsp;&nbsp;{{reverseString}}</p>
+		</div>
+		
+		<script>
+			/* 
+			 计算属性=复杂逻辑(让模板变得简单)
+			 （1），基础例子
+			 （2），计算缓存 VS method
+			      计算属性是基于它们的依赖（数据）进行缓存的；
+				  计算属性只有在它的相关依赖（数据）发送改变的时候，才会重新计算
+			 （3），计算属性 VS watch
+			 （4），计算 setter
+			 */
+			
+			var vm = new Vue({
+				el:"#box",
+				data:{
+					name:"wuhao",
+					msg:"Hello"
+				},
+				methods:{
+					changewordMethod:function(){
+						console.log("普通方法");
+						return this.name.substring(0,1).toUpperCase()+this.name.substring(1);
+					}
+				},
+				computed:{
+					changeword:function(){
+						console.log("计算属性");
+						return this.name.substring(0,1).toUpperCase()+this.name.substring(1);
+					},
+					reverseString:function(){
+						return this.msg.split('').reverse().join('');
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

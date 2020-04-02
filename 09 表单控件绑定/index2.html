@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>实例</title>
+		<script src="Vue.js"></script>
+		<style type="text/css">
+			*{
+				margin:0;
+				padding:0;
+			}
+			html,body{
+				height:100%;
+				width:100%;
+			}
+			#app{
+				width:360px;
+				min-height:400px;
+				margin:50px auto;
+				padding:20px;
+				border:2px solid black;
+				box-shadow:10px 20px 20px 10px gray;
+			}
+			p{
+				margin:20px 0;
+				border-bottom:1px solid black;
+				padding:10px 0;
+			}
+			h3{
+				width:100%;
+				height:40px;
+				line-height:40px;
+				text-align:center;
+				background-color:black;
+				color:white;
+			}
+			input,select{
+				margin-left:60px;
+			}
+			textarea{
+				margin-left:27px;
+			}
+			#name{
+				width:225px;
+				height:25px;
+				line-height:25px;
+				text-align:center;
+			}
+			#song,#write{
+				margin-left:35px;
+			}
+			#submit{
+				width:80px;
+				height:25px;
+				line-height:25px;
+				text-align:center;
+				border:none;
+				background-color:black;
+				color:white;
+				cursor:pointer;
+				margin-left:40%;
+			}
+			#submit:hover{
+				background-color:red;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<h3>详细信息</h3>
+			<form action="">
+				<p>
+					<span>姓名:</span>
+					<input type="text" v-model="name" placeholder="请输入您的姓名:" id="name">
+				</p>
+				<p>
+					<span>性别:</span>
+					<label for="male"><input type="radio" name="sex" id="male" v-model="sex" value="male">男</label>
+					<label for="female"><input type="radio" name="sex" id="female" v-model="sex" value="female">女</label>
+				</p>
+				<p>
+					<span>爱好:</span>
+					<label for="lanqiu"><input type="checkbox" name="hobby" id="lanqiu" v-model="checkedgroup" value="篮球">篮球</label>
+					<label for="song"><input type="checkbox" name="hobby" id="song" v-model="checkedgroup" value="唱歌">唱歌</label>
+					<label for="write"><input type="checkbox" name="hobby" id="write" v-model="checkedgroup" value="写代码">写代码</label>
+				</p>
+				<p>
+					<span>职业:</span>
+					<select name="work" v-model="selected">
+						<option value="" disabled="disabled">---请选择---</option>
+						<option value="前端工程师">前端工程师</option>
+						<option value="后端工程师">后端工程师</option>
+						<option value="全栈工程师">全栈工程师</option>
+						<option value="项目经理">项目经理</option>
+					</select>
+				</p>
+				<p>
+					<span>多选职业:</span>
+					<select name="work" v-model="selected1" multiple="multiple">
+						<option value="" disabled="disabled">---请选择---</option>
+						<option value="前端工程师">前端工程师</option>
+						<option value="后端工程师">后端工程师</option>
+						<option value="全栈工程师">全栈工程师</option>
+						<option value="项目经理">项目经理</option>
+					</select>
+				</p>
+				<p>
+					<span>个人简介:</span>
+					<textarea name="myself" cols="30" rows="5" v-model="myself"></textarea>
+				</p>
+				<input type="submit" value="提交" id="submit">
+			</form>
+		</div>
+		
+		<script>
+			let vm = new Vue({
+				el:"#app",
+				data:{
+					name:"",
+					sex:"male",
+					checkedgroup:["唱歌"],
+					selected:"",
+					myself:"",
+				    selected1:["后端工程师"]
+				},
+				methods:{
+					
+				}
+			})
+		</script>
+	</body>
+</html>

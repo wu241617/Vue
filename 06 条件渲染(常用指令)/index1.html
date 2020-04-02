@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>分支结构</title>
+		<script src="Vue.js"></script>
+		<style type="text/css">
+			*{
+				margin:0;
+				padding:o;
+			}
+			html,body{
+				height:100%;
+				width:100%;
+			}
+			#app{
+				width:300px;
+				min-height:100px;
+				border:2px solid black;
+				margin:50px auto;
+				padding:20px;
+				box-shadow:10px 20px 20px 10px gray;
+			}
+			h3{
+				height:40px;
+				background-color:black;
+				color:white;
+				line-height:40px;
+				text-align:center;
+			}
+			hr{
+				margin:10px 0;
+			}
+			button{
+				width:100px;
+				height:30px;
+				line-height:30px;
+				text-align:center;
+				border:none;
+				background-color:black;
+				color:white;
+				cursor:pointer;
+				margin-left:100px;
+			}
+			button:hover{
+				background-color:red;
+			}
+			input{
+				width:292px;
+				height:30px;
+				line-height:30px;
+				text-align:center;
+				margin:20px 0;
+				background-color:pink;
+				border:2px solid black;
+				border-style:groove;
+			}
+			ul{
+				padding:0 20px;
+				list-style:none;
+				border:1px solid red;
+			}
+			ul li{
+				border-bottom:1px solid black;
+				margin:10px 0;
+				display:flex;
+				cursor:pointer;
+			}
+			ul li:hover{
+				background-color:rgba(255,0,0,.5);
+			}
+			ul li b,ul li span{
+				flex:1;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<h3>成绩评定:</h3>
+			<input type="text" placeholder="请输入你的成绩:" v-model="score">
+			
+			<div v-if="score>=90&&score<=100" :style="obj">评定结果:{{score}}分---优秀</div>
+			<div v-else-if="score>=80&&score<90" :style="obj">评定结果:{{score}}分---良好</div>
+			<div v-else-if="score<80&&score>=60" :style="obj">评定结果:{{score}}分---一般</div>
+			<div v-else-if="score<60&&score>0" :style="obj">评定结果:{{score}}分---比较差</div>
+			<div v-else-if=" score==0||score=='' " :style="obj">评定结果:0分---最差</div>
+			<div v-else="score<0||score>100" :style="obj">评定结果:成绩应该在(0-100)分之间!</div>
+			<hr>
+			<button @click="handleClick">评分规则</button>
+			<hr v-show="flag">
+			<div v-show="flag">
+				<ul>
+					<li v-for="data in datalist">
+						<b>score: </b><span>{{data}}</span>
+					</li>
+				</ul>
+			</div>
+		</div>
+		
+		<script>
+			/* 
+			 v-if
+			 v-else
+			 v-else-if
+			 v-show
+			 */
+			let vm = new Vue({
+				el:"#app",
+				data:{
+					score:"",
+					flag:false,
+					datalist:["100-90分(优秀)","90-80分(良好)","80-60分(一般)","60-0分(较差)","0分(最差)"],
+					obj:{
+						textAlign:"center"
+					}
+				},
+				methods:{
+					handleClick:function(){
+						this.flag=!this.flag;
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

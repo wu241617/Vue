@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>列表过渡</title>
+		<script src="Vue.js"></script>
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+			}
+
+			#box {
+				width: 410px;
+				min-height: 300px;
+				border: 2px solid black;
+				margin: 50px auto;
+				background: linear-gradient(blue, white);
+				box-shadow: 10px 20px 20px 10px gray;
+			}
+
+			#box input {
+				width: 300px;
+				height: 30px;
+				margin: 20px;
+			}
+
+			#btn1 {
+				height: 30px;
+				width: 50px;
+				text-align: center;
+				line-height: 30px;
+				background-color: black;
+				color: white;
+				border: 0;
+				cursor: pointer;
+			}
+
+			#btn1:hover {
+				background-color: red;
+			}
+
+			ul {
+				list-style: none;
+			}
+
+			ul li {
+				margin: 5px 20px;
+				color: red;
+			}
+
+			.bounce-enter-active {
+				animation: bounce-in .5s;
+			}
+
+			.bounce-leave-active {
+				animation: bounce-in .5s reverse;
+			}
+
+			@keyframes bounce-in {
+				0% {
+					transform: translateX(20px);
+				}
+
+				50% {
+					transform: translateX(0px);
+				}
+
+				100% {
+					transform: translateX(-20px);
+				}
+			}
+			input{
+				text-align:center;
+				color:black;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box">
+			<input type="text" v-model="mytext" placeholder="请输入内容:">
+			<button @click="changeClick" id="btn1">add</button>
+
+			<transition-group tag="ul" name="bounce"><!-- transition-group不同于transition,它会以一个真实元素（默认span）,可以通过tag特性更换为其他元素 -->
+				<li v-for="(data,index) in datalist" :key="data"><!-- 列表过渡 (设置key)key不能为索引值，会出错 -->
+					{{data}}
+					<button @click="deleteClick(index)" :style="btn2">del</button>
+					<hr>
+				</li>
+			</transition-group>
+
+		</div>
+
+		<script>
+			/* 
+			 列表过渡 (设置key)
+			 -->transition-group不同于transition,它会以一个真实元素（默认span）,可以通过tag特性更换为其他元素
+			 */
+			var vm = new Vue({
+				el: "#box",
+				data: {
+					mytext: "",
+					datalist: [],
+					btn2: {
+						float: "right",
+						backgroundColor: "black",
+						color: "white",
+						border: "none",
+						cursor: "pointer",
+						width: "30px",
+						height: "25px"
+					}
+				},
+				methods: {
+					changeClick: function() {
+						this.datalist.push(this.mytext);
+						this.mytext = "";
+					},
+					deleteClick: function(index) {
+						this.datalist.splice(index, 1);
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

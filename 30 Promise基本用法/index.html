@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Promise用法</title>
+		<script src="Vue.js"></script>
+		<style type="text/css">
+			*{
+				margin:0;
+				padding:0;
+			}
+			html,body{
+				height:100%;
+				width:100%;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			
+		</div>
+		
+		<script>
+			/* 
+			Promise是异步编程的一种解决方案，从语义上讲，Promise是一对象。从它可以获取异步操作的消息
+			
+			【1】异步调用（JS层面）
+			-->定时任务
+			-->Ajax
+			-->事件函数
+			【2】Promise用法
+			-->实例化Promise对象，构造函数中传递函数，该函数用于处理异步任务
+			-->resolve和reject两个参数用于处理成功和失败的两种情况，并通过p.then获取处理结果
+			var p = new Promise(function(resolve,reject){
+				//成功时调用resolve()
+				//失败时调用reject()
+			});
+			p.then(function(ret){
+				//从resolve得到正常结果
+			},function(ret){
+				//从rejecty得到错误信息
+			})
+			 
+			 */
+			
+			var p = new Promise(function(resolve,reject){
+				//用于处理异步操作
+				setTimeout(function(){//定时任务(异步)
+					var flag=true;
+					if(flag){
+						resolve("Hello Wuhao");
+					}else{
+						reject("出错了！");
+					}
+				},1000);
+			});
+			p.then(function(ret){
+				console.log(ret);
+			},function(ret){
+				console.log(ret);
+			});
+		</script>
+	</body>
+</html>

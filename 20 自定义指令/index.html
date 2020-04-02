@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>自定义指令</title>
+		<script src="Vue.js"></script>
+	</head>
+	<body>
+		<div id="box">
+			<input type="text" v-focus>
+			<p v-hello="'blue'">111111</p>
+			<div v-hello1>222222</div>
+			<p v-hello2="color">333333</p>
+			<p v-hello3="obj">444444</p>
+		</div>
+		
+		<script>
+			/* 
+			 自定义指令:对纯DOM元素进行底层操作
+			 1，自定义指令介绍 directives
+			 2，钩子函数
+			    -->参数el,binding,vnode(vnode.context)
+				-->指令中的生命周期（钩子函数）
+				   <1>,bind-->第一次实例化DOM节点时，才生效
+				   <2>,inserted-->第一次插入到HTMLDOM节点中，才生效的钩子函数
+				   <3>,update-->更新变量或者状态的时候，生效调用
+				   <4>,componentUpdated-->更新变量或者状态的时候，生效调用
+				   <5>,unbind-->删除组件或者指令解除绑定时调用生效。
+			 3，函数简写
+			 Vue.directive("hello2",function(el,binding){
+			 	el.style.background=binding.value;
+			 })
+			 4，对象字面量:传多个参数，改造成一个对象
+			 
+			 */
+			Vue.directive("focus",{//第一个参数，名称；第二个参数为一个对象
+				inserted:function(el){//获取元素焦点
+					el.focus();
+				}
+			})
+			Vue.directive("hello",{//全局自定义指令
+				inserted:function(el,binding){
+					el.style.background=binding.value;
+				}
+			}) 
+			
+			Vue.directive("hello2",{//全局
+				inserted:function(el,binding){
+					el.style.background=binding.value;
+				},
+				update:function(el,binding){
+					el.style.background=binding.value;
+				}
+			}) 
+			
+			Vue.directive("hello3",function(el,binding){
+				el.style.background=binding.value.background;
+				el.style.color=binding.value.color;
+			})
+			
+			var vm = new Vue({
+				el:"#box",
+				data:{
+					color:"green",
+					obj:{
+						color:"red",
+						background:"yellow"
+					}
+				},
+				directives:{//局部自定义指令
+					"hello1":{
+						inserted:function(el){
+							el.style.background="pink";
+						}
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

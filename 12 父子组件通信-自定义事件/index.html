@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>组件自定义事件</title>
+		<script src="Vue.js"></script>
+	</head>
+	<body>
+		<div id="box">
+			<hello name="wuhao" @event="changeParent($event)"></hello><!-- @event自定义事件，监听 -->
+			<p v-html="hello"></p><!-- $event固定用法，接受传过来的参数 -->
+		</div>
+		
+		<script>
+			/* 
+			 自定义事件：
+		       子组件通过自定义事件向父组件传递信息
+					-->使用$on(eventName)监听事件
+		       父组件监听子组件的事件
+					-->使用$emit(eventName)触发事件
+			 
+			 props:["name"]-->传参
+			 this.$emit("event","来自子组件的问候");
+			 */
+			var vm = new Vue({//Vue对象
+				el:"#box",
+				data:{
+					hello:""
+				},
+				components:{//组件
+					"hello":{
+						template:`<div>我是{{name}}子组件
+						<button @click="change">click</button>
+						</div>`,
+						props:["name"],
+						methods:{//组件内普通方法
+							change:function(){
+								//分发事件
+								this.$emit("event","来自子组件的问候");//触发事件
+							}
+						}
+					}
+				},
+				methods:{//普通方法
+					changeParent:function(data){//data接收传过来的参数值
+						this.hello=data;
+					}
+				}
+			})
+		</script>
+	</body>
+</html>
