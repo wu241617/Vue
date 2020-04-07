@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial=1.0,minmum-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
+		<title>路由重定向</title>
+		<style type="text/css">
+			*{
+				margin:0;
+				padding:0;
+			}
+			html,body{
+				height:100%;
+				width:100%;
+			}
+			#app{
+				width:600px;
+				min-height:300px;
+				border:2px solid black;
+				margin:20px;
+			}
+			.nav{
+				display:block;
+				height:60px;
+				line-height:60px;
+				width:100px;
+				text-align:center;
+				text-decoration:none;
+				color:white;
+				background-color:black;
+				text-shadow:5px 5px 5px blue;
+			}
+			.nav:hover{
+				color:red;
+			}
+			.left,.right{
+				float:left;
+			}
+			h3{
+				height:50px;
+				line-height:50px;
+				background-color:rgba(0,0,0,.8);
+				color:white;
+				width:500px;
+				text-align:center;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div class="left">
+				<!-- 2，添加路由链接 -->
+				<router-link to="/index" class="nav">主页</router-link>
+				<router-link to="/denglu" class="nav">登录</router-link>
+				<router-link to="/zhuce" class="nav">注册</router-link>
+				<router-link to="/taolun" class="nav">讨论</router-link>
+				<router-link to="/zhusu" class="nav">住宿</router-link>
+			</div>
+			
+			<!-- 3，添加路由占位符 -->
+			<router-view class="right"></router-view>
+		</div>
+		
+		<script src="Vue.js"></script>
+		<!-- 1,引入相关库文件 -->
+		<script src="vue-router.js"></script>
+		
+		<script>
+			/* 
+			vue-router重定向:
+			路由重定向指的是:用户在访问地址A的时候，强制用户跳转到地址C，从而展示特定的组件页面；
+			通过路由规则的redirect属性，指定一个新的路由地址，可以很方便的设置路由的重定向
+			 */
+			//4，添加组件
+			const Index = {
+				template:`<h3>主页信息展示区域</h3>`
+			}
+			const Denglu = {
+				template:`<h3>登录信息展示区域</h3>`
+			}
+			const Zhuce = {
+				template:`<h3>注册信息展示区域</h3>`
+			}
+			const Taolun = {
+				template:`<h3>讨论信息展示区域</h3>`
+			}
+			const Zhusu = {
+				template:`<h3>住宿信息展示区域</h3>`
+			}
+			
+			//5,创建vue-router实例化对象，并指定路由规则
+			let router = new VueRouter({
+				routes:[
+					{
+						path:"/index",
+						redirect:"/denglu"
+					},
+					{
+						path:"/index",
+						component:Index
+					},
+					{
+						path:"/denglu",
+						component:Denglu
+					},
+					{
+						path:"/zhuce",
+						component:Zhuce
+					},
+					{
+						path:"/taolun",
+						component:Taolun
+					},
+					{
+						path:"/zhusu",
+						component:Zhusu
+					}
+				]
+			})
+			
+			let vm = new Vue({
+				el:"#app",
+				data:{},
+				//6,挂载实例好的路由对象到vue上
+				router
+			})
+		</script>
+	</body>
+</html>

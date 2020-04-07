@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial=1.0,minmum-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
+		<title>路由组件传递参数</title>
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+
+			html,
+			body {
+				height: 100%;
+				width: 100%;
+			}
+
+			body {
+				font-size: 1rem;
+				font-family: 微软雅黑;
+				font-weight: normal;
+			}
+
+			ol,
+			ul {
+				list-style: none;
+			}
+
+			img {
+				display: block;
+				border: none;
+			}
+
+			a {
+				color: #666;
+				text-decoration: none;
+			}
+
+			a:hover {
+				color: #f60;
+			}
+
+			#app {
+				width: 30rem;
+				min-height: 5rem;
+				border: 0.1rem solid black;
+				margin: 3rem auto;
+			}
+
+			#link {
+				display: flex;
+			}
+
+			.link {
+				display: block;
+				flex: 1;
+				height: 2rem;
+				line-height: 2rem;
+				text-decoration: none;
+				color: #666;
+				text-shadow: 0.2rem 0.2rem 0.2rem #FFFF00;
+			}
+
+			.link:hover {
+				color: red;
+				font-weight: bold;
+			}
+
+			span {
+				color: red;
+				font-weight: bold;
+			}
+
+			.zujian {
+				width: 100%;
+				background-color: black;
+				color: white;
+				height: 60px;
+				line-height: 60px;
+				text-align: center;
+			}
+		</style>
+		<style>
+			@media (min-width:1000px) {
+				html {
+					font-size: 20px;
+				}
+			}
+
+			@media (min-width:500px) and (max-width:1000px) {
+				html {
+					font-size: 16px;
+				}
+
+			}
+
+			@media (max-width:500px) {
+				html {
+					font-size: 12px;
+				}
+
+				#app {
+					width: auto;
+					height: auto;
+					margin: 0;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div id="link">
+				<router-link to="/user/1" class="link">User1</router-link>
+				<router-link to="/user/2" class="link">User2</router-link>
+				<router-link to="/user/3" class="link">User3</router-link>
+				<router-link to="/user/4" class="link">User4</router-link>
+				<router-link to="/user/5" class="link">User5</router-link>
+				<router-link to="/register" class="link">Register</router-link>
+			</div>
+
+			<hr>
+			<router-view></router-view>
+		</div>
+
+		<script src="Vue.js"></script>
+		<script src="vue-router.js"></script>
+		<script>
+			/* 
+			 vue-router动态路由匹配---路由组件传递参数
+			 $route与对应路由形成高度耦合，不够灵活，所以可以使用props将组件和路由解耦
+==================================================
+			 1,props的值为布尔类型--只有id有效(动态参数)
+			 const router = new VueRouter({
+				 routes:[
+					 //如果props被设置为true，route.params将会被设置为组件属性
+					 {
+						 path:"/user/:id",
+						 component:User,
+						 props:true
+					 }
+				 ]
+			 })
+			 
+			 const User = {
+				 //使用props接收路由参数
+				 props["id"],
+				 //使用路由参数
+				 template:'<div>用户ID:{{id}}</div>'
+			 }
+			 
+==================================================
+			 2,props的值为对象类型--id无效,其他有效（静态和动态参数）
+			 const router = new VueRouter({
+			   routes:[
+			//如果props是一个对象，它会按原样设置为组件属性
+			   {
+			 		 path:"/user/:id",
+			 		 component:User,
+			 		 props:{uname:'list',age:12}
+			 	}
+			 	     ]
+			 })
+			 
+			 const User = {
+			 	 //使用props接收路由参数
+			 	 props["uname",'age'],
+			 	 //使用路由参数
+			 	 template:'<div>用户ID:{{uname+"==="+age}}</div>'
+			 }
+=================================================
+			  3,props的值为函数类型--id和其他都有效（静态和动态参数）
+			  const router = new VueRouter({
+			    routes:[
+			 //如果props是一个函数，则这个函数接收route对象为自己的形参
+			    {
+			  		 path:"/user/:id",
+			  		 component:User,
+			  		 props:route=>({uname:"zs",age:20,id:route.params.id})
+			  	}
+			  	     ]
+			  })
+			  
+			  const User = {
+			  	 //使用props接收路由参数
+			  	 props["uname",'age',"id"],
+			  	 //使用路由参数
+			  	 template:'<div>用户ID:{{uname+"==="+age+"==="+id}}</div>'
+			  }
+			 */
+
+			const User = {
+				props: ["id"],
+				template: `<div class="zujian">User---(当前用户<span> ID : {{id}} </span>)---路由组件内容区域</div>`
+			}
+			const Register = {
+				template: `<div class="zujian">Register路由组件内容区域</div>`
+			}
+
+			let router = new VueRouter({
+				routes: [{
+						path: "/user/:id",
+						component: User,
+						props: true
+					},
+					{
+						path: "/register",
+						component: Register
+					}
+				]
+			})
+
+			let vm = new Vue({
+				el: "#app",
+				data: {},
+				router: router
+			})
+		</script>
+	</body>
+</html>

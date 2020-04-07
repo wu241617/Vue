@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
+		<title>vue-router编程式导航</title>
+		<style type="text/css">
+			*{
+				margin:0;
+				padding:0;
+			}
+			html,body{
+				height:100%;
+				width:100%;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<router-link to="/zhuye">主页</router-link>
+		    <router-link to="/zhusu">住宿</router-link>
+			<router-link to="/taolun">讨论</router-link>
+			<router-link to="/daohang">导航</router-link>
+			<router-link to="/zhuce">注册</router-link>
+			<router-view></router-view>
+		</div>
+		
+		<script src="Vue.js"></script>
+		<script src="vue-router.js"></script>
+		<script>
+			/* vue-router编程式导航
+			 页面导航的两种方式:
+			 --->声明式导航:通过点击链接实现导航的方式，叫做声明式导航;例如普通网页中的<a></a>链接或vue中的<router-link></router-link>
+			 --->编程式导航:通过Javascript形式的API实现导航的方式，叫做编程式导航;例如:普通网页中的location.href
+			 --->vue中常用的编程式导航基本用法
+			 常用的编程导航API如下:
+			 this.$router.push("hash地址");
+			 this.$router.go(n);
+===================================================
+			const User = {
+				template:`<div><button @click="goRegister">跳转到注册页面</button></div>`,
+				methods:{
+					goRegister:function(){
+						//用编程的方式控制路由跳转
+						this.$router.push("/register");
+					}
+				}
+			}
+====================================================
+			--->编程式导航参数规则:
+			router.push()方法的参数规则
+			//字符串（路径名称）
+			router.push("/home");
+			//对象
+			router.push({path:"/home"});
+			//命名的路由（传递参数）
+			router.push({name:"/home",params:{id:123}});
+			//带查询参数，变成/register?uname=lisi
+			router.push({path:"/register",query:{uname:"lisi"}});
+			 */
+			const Zhuye = {
+				template:`
+				<div>
+					<h2>主页面展示区域</h2>
+					<button @click="goRegister">goRegister</button>
+				</div>
+				`,
+				methods:{
+					goRegister:function(){
+						//跳转到指定路由页面
+						this.$router.push("/zhuce");
+					}
+				}
+			}
+			const Zhusu = {
+				template:`<h2>住宿页面展示区域</h2>`
+			}
+			const Taolun = {
+				template:`<h2>讨论页面展示区域</h2>`
+			}
+			const Daohang = {
+				template:`<h2>导航页面展示区域</h2>`
+			}
+			const Zhuce = {
+				template:`
+				<div>
+					<h2>注册页面展示区域</h2>
+					<button @click="goBack">后退</button>
+				</div>
+				
+				`,
+				methods:{
+					goBack:function(){
+						this.$router.go(-1);
+					}
+				}
+			}
+			
+			const router = new VueRouter({
+				routes:[
+					{
+						path:"/zhuye",
+						component:Zhuye
+					},
+					{
+						path:"/zhusu",
+						component:Zhusu
+					},
+					{
+						path:"/taolun",
+						component:Taolun
+					},
+					{
+						path:"/daohang",
+						component:Daohang
+					},
+					{
+						path:"/zhuce",
+						component:Zhuce
+					}
+				]
+			})
+			
+			let vm = new Vue({
+				el:"#app",
+				data:{},
+				router:router
+			})
+		</script>
+	</body>
+</html>

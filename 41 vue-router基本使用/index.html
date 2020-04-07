@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>vue-router基本使用</title>
+		<style type="text/css">
+			*{
+				margin:0;
+				padding:0;
+			}
+			html,body{
+				height:100%;
+				width:100%;
+			}
+			h2{
+				width:600px;
+				height:60px;
+				text-align:center;
+				line-height:60px;
+				background-color:#666;
+				color:white;
+				border-right:2px solid #666;
+				border-left:2px solid #666;
+			}
+			ol{
+				width:520px;
+				min-height:100px;
+				padding:40px;
+				border:2px solid #666;
+			}
+			ol li{
+				height:30px;
+				line-height:30px;
+				font-size:20px;
+			}
+			p{
+				width:600px;
+				height:auto;
+				padding:20px 0;
+				border:2px solid #666;
+				border-top:0;
+			}
+			hr{
+				width:600px;
+				margin:20px 0;
+			}
+			.zujian{
+				margin:10px 50px;
+				text-decoration:none;
+				color:#666;
+			}
+			.view{
+				height:100px;
+				line-height:100px;
+				text-align:center;
+				width:600px;
+				border:2px solid #666;
+				text-shadow:3px 3px 3px #f60;
+			}
+		</style>
+	</head>
+	<body>
+		<h2>Vue-Router:基本使用步骤</h2>
+		<ol>
+			<li>引入相关的库文件</li>
+			<li>添加路由链接router-link to</li>
+			<li>添加路由填充位router-view</li>
+			<li>定义路由组件</li>
+			<li>配置路由规则并创建路由实例</li>
+			<li>把路由挂到Vue根实例中</li>
+		</ol>
+		<p>router-link是Vue中提供的标签，默认会渲染为a标签，to属性默认会被渲染为href属性，to属性的值默认会被渲染为#开头的hash地址</p>
+		
+		<hr>
+		
+		<div id="app">
+			<!-- 2，添加路由链接 -->
+			<router-link to="/user" class="zujian">User</router-link>
+			<router-link to="/register" class="zujian">Rrgister</router-link>
+			<router-link to="/password" class="zujian">Password</router-link>
+			<hr>
+			<!-- 3，添加路由占位符 -->
+			<router-view class="view"></router-view>
+		</div>
+	    
+		
+		<script src="Vue.js"></script>
+		<!-- 1,引入相关库文件-->
+		<script src="vue-router.js"></script>
+		<script>
+			/* 
+			 vue-router的基本使用
+			 注:引入相关库文件（vue文件先引入，后引入vue-router文件-->依赖于vue文件）
+			 */
+			
+			//4,定义路由组件
+			const User = {
+				template:`<h3>User组件展示区域</h3>`
+			}
+			const Register = {
+				template:`<h3>Register组件展示区域</h3>`
+			}
+			const Password = {
+				template:`<h3>Password组件展示区域</h3>`
+			}
+			
+			
+			//5,创建路由实例对象
+			const router = new VueRouter({
+				//5,routes是路由规则
+				routes:[
+					{
+						path:"/user",
+						component:User//组件名称不能使用字符串
+					},
+					{
+						path:"/register",
+						component:Register
+					},
+					{
+						path:"/password",
+						component:Password
+					}
+				]
+			})
+			
+			
+			var vm = new Vue({
+				el:"#app",
+				data:{},
+				//6,把路由挂载到Vue根实例中
+				router:router
+			})
+	
+		</script>
+	</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<style type="text/css">
+			*{
+				margin:0;
+				padding:0;
+			}
+			div{
+				width:950px;
+				min-height:400px;
+				margin:50px auto;
+				padding:20px;
+				border:2px solid black;
+				box-shadow:10px 20px 20px 10px gray;
+			}
+			h2{
+				height:50px;
+				line-height:50px;
+				text-align:center;
+				background-color:black;
+				color:white;
+				margin-bottom:20px;
+			}
+			ul{
+				list-style:none;
+			}
+			ul li{
+				height:40px;
+				line-height:40px;
+				border-bottom:1px solid black;
+				cursor:pointer;
+				padding-left:20px;
+				border-radius: 10px;
+			}
+			ul li:hover{
+				background-color:rgba(255,0,0,.5);
+				box-shadow:5px 10px 10px 5px gray;
+				border-radius: 10px;
+			}
+		</style>
+		<title>Vue-router:前端路由</title>
+	</head>
+	<body>
+		<div>
+			<h2>路由:是一个比较广义和抽象的概念，路由的本质就是对应关系</h2>
+			<ul>
+				<li>在开发中<b>路由</b>分为:</li>
+				<li><strong>1,后端路由---</strong>根据不同的用户URL请求，返回不同的内容;本质为URL请求地址与服务器资源之间的对应关系</li>
+				<li><b>2,前端路由---</b>根据不同的用户事件，显示不同的页面内容;本质为用户事件与事件处理函数之间的对应关系</li>
+				<li>前端路由负责事件监听，触发事件后，通过事件函数渲染不同内容</li>
+				<li>后端路由(存在性能问题)</li>
+				<li>Ajax前端渲染(前端渲染提高性能，但是不支持浏览器的前进后退操作)</li>
+				<li><b>SPA</b>:单页面应用程序:整个网站只有一个页面，内容的变化通过Ajax局部更新实现，同时支持浏览器地址栏的前进和后退操作</li>
+				<li>SPA实现原理之一:基于URL地址的hash(hash的变化会导致浏览器记录访问历史的变化，但是hash的变化不会触发新的URL请求)</li>
+				<li>在实现SPA过程中，最核心的技术点就是前端路由</li>
+			</ul>
+		</div>
+		
+	</body>
+</html>

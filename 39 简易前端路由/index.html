@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<style type="text/css">
+			*{
+				margin:0;
+				padding:0;
+			}
+			html,body{
+				height:100%;
+				width:100%;
+			}
+			h2{
+				height:60px;
+				line-height:60px;
+				font-size:22px;
+				background-color:black;
+				color:white;
+				text-align:center;
+				background-color:#666;
+				text-shadow:2px 2px 2px  rgba(255,0,0,.5);
+			}
+			ul{
+				list-style:none;
+				width:400px;
+				height:40px;
+				line-height:40px;
+				display:flex;
+			}
+			ul li{
+				flex:1;
+				margin:0 20px;
+			}
+			a{
+				text-decoration:none;
+				color:#666;
+				text-shadow:2px 2px 2px  orange;
+			}
+			a:hover{
+				color:blue;
+			}
+			h1{
+				text-align:center;
+				min-height:100px;
+				line-height:100px;
+				text-shadow:2px 2px 2px  orange;
+			}
+		</style>
+		<script src="Vue.js"></script>
+		<title>简易前端路由</title>
+	</head>
+	<body>
+		<h2>基于URL中的hash实现(点击菜单的时候改变URL中的hash，根据hash的变化控制组件的切换)</h2>
+		<!-- 被vue实例控制的div区域 -->
+		<div id="app">
+			<!-- 切换组建的超链接 -->
+			<ul>
+				<li :key="data.id" v-for="(data,index) in datalist">
+					<a :href="data.href">{{data.text}}</a>
+				</li>
+			</ul>
+			<hr>
+			<!-- 根据:is属性指定的组件名称，把对应的组件渲染到component标签所在的位置 -->
+			<!-- 可以把component标签当作是（组件的占位符） -->
+			<keep-alive>
+				<component :is="current"></component>
+			</keep-alive>
+		</div>
+		
+		<script>
+
+			let vm = new Vue({
+				el:"#app",
+				data:{
+					current:"zhuye",
+					datalist:[
+						{
+							href:"#/zhuye",
+							text:"主页",
+							id:1
+						},
+						{
+							href:"#/keji",
+							text:"科技",
+							id:2
+						},
+						{
+							href:"#/caijing",
+							text:"财经",
+							id:3
+						},
+						{
+							href:"#/yule",
+							text:"娱乐",
+							id:4
+						}
+					]
+				},
+				methods:{
+					
+				},
+				components:{
+					//#region定义需要被切换的4个组件
+					"zhuye":{//主页组件
+						template:`<h1>主页信息</h1>`
+					},
+					"keji":{//科技组件
+						template:`<h1>科技信息</h1>`
+					},
+					"caijing":{//财经组件
+						template:`<h1>财经信息</h1>`
+					},
+					"yule":{//娱乐组件
+						template:`<h1>娱乐信息</h1>`
+					}
+				}
+			})
+			
+		
+			//监听window的onhashchange事件，根据获取到的最新的hash值，切换要显示的组件的名称
+			window.onhashchange = function(){
+				//通过location.hash获取到最新的hash值
+				switch(location.hash){
+					case "#/zhuye":
+					vm.current = "zhuye";
+					break;
+					case "#/keji":
+					vm.current = "keji";
+					break;
+					case "#/caijing":
+					vm.current = "caijing";
+					break;
+					case "#/yule":
+					vm.current = "yule";
+					break;
+				}
+			}
+		</script>
+	</body>
+</html>
